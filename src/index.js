@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 //import store from "./store";
 import App from "./app";
 //import "./scss/theme.scss";
-//import "./i18n";
+import "./i18n";
 
 
 ReactDOM.render(

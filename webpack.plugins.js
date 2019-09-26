@@ -5,14 +5,14 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 const { GenerateSW } = require("workbox-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyPlugin = require('copy-webpack-plugin');
+const RobotstxtPlugin = require("robotstxt-webpack-plugin");
+
 
 
 const htmlProdPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
   filename: "./index.html",
-  favicon: './src/assets/images/favicon.png',
+  favicon: './src/assets/images/icon_64.png',
   minify: {
     removeComments: true,
     collapseWhitespace: true,
@@ -54,12 +54,12 @@ const manifestPlugin = new WebpackPwaManifest({
   crossorigin: "use-credentials", //can be null, use-credentials or anonymous
   icons: [
     {
-      src: path.resolve("src/assets/images/icon-512x512.png"),
+      src: path.resolve("src/assets/images/icon_512.png"),
       sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
       destination: path.join("icons")
     },
     {
-      src: path.resolve("src/assets/images/icon-512x512.png"),
+      src: path.resolve("src/assets/images/icon_512.png"),
       size: "192x192", // multiple sizes
       destination: path.join("icons"),
       ios: true
@@ -72,23 +72,22 @@ const manifestPlugin = new WebpackPwaManifest({
 
 const cleanPlugin = new CleanWebpackPlugin();
 
-const bundleAnalyzePlugin = new BundleAnalyzerPlugin();
-
 const swPlugin = new GenerateSW({
   swDest: "sw.js",
   clientsClaim: true,
   skipWaiting: true
 });
 
-const copyPlugin = new CopyPlugin([
-  { from: './src/robots.txt', to: './' }
-])
+
+const robotsTxtPlugin = new RobotstxtPlugin({
+  filePath: "/robots.txt"
+});
 
 exports.prodPlugins = [
   htmlProdPlugin,
   manifestPlugin,
   swPlugin,
-  copyPlugin,
+  robotsTxtPlugin,
   envProdPlugin,
   cssPlugin,
   cleanPlugin
