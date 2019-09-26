@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --inline --hot --env dev",
-    "build:prod": "webpack --env prod",
-    "start:server": "http-server ./dist -p 3000",
+    "build": "webpack --env prod",
+    "serve": "http-server ./dist -p 3000",
     "test": "jest"
   },
   "repository": "git@github.com:emreycolakoglu/coinpurse.git",
