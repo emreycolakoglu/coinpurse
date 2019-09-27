@@ -127,6 +127,9 @@ module.exports = {
     compress: true,
     port: 3000,
     host: "0.0.0.0",
+    open: true,
+    openPage: "http://localhost:3000/",
+    overlay: true,
     disableHostCheck: true,
     historyApiFallback: true
   },

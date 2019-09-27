@@ -17,6 +17,7 @@ export default class App extends Component {
           </Helmet>
 
           <Route exact path="/" component={Dashboard} />
+          <Route path="/login" component={Login} />
         </BrowserRouter>
       </Suspense>
     );
@@ -26,6 +27,12 @@ export default class App extends Component {
 const Dashboard = lazy(() =>
   import(
     /* webpackChunkName: "dashboard" */ "./views/dashboard"
+  )
+);
+
+const Login = lazy(() =>
+  import(
+    /* webpackChunkName: "login" */ "./views/auth/login"
   )
 );
 
