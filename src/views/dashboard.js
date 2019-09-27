@@ -13,7 +13,6 @@ export default function Dashboard() {
           unit="₺"
           header="Test Value"
           title="Today"
-          bg="danger"
         />
       </div>
     </View>
