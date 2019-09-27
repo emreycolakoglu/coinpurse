@@ -18,6 +18,8 @@ export default class App extends Component {
 
           <Route exact path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
+          <Route path="/assets/list" component={AssetList} />
+          <Route path="/assets/create" component={AssetCreate} />
         </BrowserRouter>
       </Suspense>
     );
@@ -33,6 +35,17 @@ const Dashboard = lazy(() =>
 const Login = lazy(() =>
   import(
     /* webpackChunkName: "login" */ "./views/auth/login"
+  )
+);
+
+const AssetList = lazy(() =>
+  import(
+    /* webpackChunkName: "assetList" */ "./views/assets/assetList"
+  )
+);
+const AssetCreate = lazy(() =>
+  import(
+    /* webpackChunkName: "assetCreate" */ "./views/assets/assetCreate"
   )
 );
 

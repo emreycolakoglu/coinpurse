@@ -5,6 +5,7 @@ import SingleValueCard from "../components/cards/singleValueCard";
 import Content from "../components/view/content";
 
 export default function Dashboard() {
+
   return (
     <View>
       <Navbar />
