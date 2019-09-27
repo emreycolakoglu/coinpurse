@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import Navbar from "../../components/navbar/navbar";
 import View from "../../components/view/view";
 import Content from "../../components/view/content";
@@ -6,18 +7,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { AssetService } from "../../sources/db/assetService";
+import store from "../../store";
 
-export default function AssetCreate() {
+const AssetCreate = (props) => {
   const [name, setName] = useState("");
   const [balance, setBalance] = useState("");
 
   async function createAsset() {
-    const assetService = new AssetService();
-    assetService.addAsset({
-      name,
-      balance
-    });
+    store.dispatch({ type: "CREATE_ASSET", asset: { name, balance } });
   }
 
   return (
@@ -76,4 +73,13 @@ export default function AssetCreate() {
       </Content>
     </View>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  assets: state.assets
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(AssetCreate);

@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import Navbar from "../../components/navbar/navbar";
 import View from "../../components/view/view";
 import Content from "../../components/view/content";
 import Table from "react-bootstrap/Table";
-import { AssetService } from "../../sources/db/assetService";
+import store from "../../store";
 
-export default function AssetList() {
-  const [assets, setAssets] = useState([]);
+const AssetList = (props) => {
   useEffect(() => {
-    doit();
+    store.dispatch({ type: "GET_ASSETS" });
   }, []);
-
-  async function doit() {
-    const assets = new AssetService();
-    const asx = await assets.getAssets();
-    setAssets(asx);
-  }
-
+  
   return (
     <View>
       <Navbar />
@@ -37,19 +31,30 @@ export default function AssetList() {
               </tr>
             </thead>
             <tbody>
-              {assets.map((a, i) => {
-                return (
-                  <tr key={i}>
-                    <td>{a.id}</td>
-                    <td>{a.name}</td>
-                    <td>{a.balance}</td>
-                  </tr>
-                );
-              })}
+              {props.assets &&
+                props.assets.data &&
+                props.assets.data.map((a, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>{a.id}</td>
+                      <td>{a.name}</td>
+                      <td>{a.balance}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </Table>
         </div>
       </Content>
     </View>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  assets: state.assets
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(AssetList);
