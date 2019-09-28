@@ -1,9 +1,12 @@
 import { combineReducers } from "redux";
 
-const assets = (state = {
-  data: [],
-  loading: false
-}, action) => {
+const assets = (
+  state = {
+    data: [],
+    loading: false
+  },
+  action
+) => {
   switch (action.type) {
     case "GET_ASSETS":
     case "CREATE_ASSET":
@@ -15,8 +18,27 @@ const assets = (state = {
   }
 };
 
+const debts = (
+  state = {
+    data: [],
+    loading: false
+  },
+  action
+) => {
+  switch (action.type) {
+    case "GET_DEBTS":
+    case "CREATE_DEBT":
+      return { ...state, loading: true };
+    case "DEBTS_RECIEVED":
+      return { ...state, data: action.debts, loading: false };
+    default:
+      return state;
+  }
+};
+
 const coinPurseApp = combineReducers({
-  assets
+  assets,
+  debts
 });
 
 export default coinPurseApp;

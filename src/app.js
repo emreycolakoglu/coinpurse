@@ -2,6 +2,7 @@ import React, { Component, Suspense, lazy } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import i18n from "./i18n";
+import Loading from "./components/loading/loading";
 
 
 export default class App extends Component {
@@ -20,6 +21,8 @@ export default class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/assets/list" component={AssetList} />
           <Route path="/assets/create" component={AssetCreate} />
+          <Route path="/debts/list" component={DebtList} />
+          <Route path="/debts/create" component={DebtCreate} />
         </BrowserRouter>
       </Suspense>
     );
@@ -40,13 +43,24 @@ const Login = lazy(() =>
 
 const AssetList = lazy(() =>
   import(
-    /* webpackChunkName: "assetList" */ "./views/assets/assetList"
+    /* webpackChunkName: "asset.list" */ "./views/assets/assetList"
   )
 );
 const AssetCreate = lazy(() =>
   import(
-    /* webpackChunkName: "assetCreate" */ "./views/assets/assetCreate"
+    /* webpackChunkName: "asset.create" */ "./views/assets/assetCreate"
   )
 );
 
-const renderLoader = () => <div>loading...</div>;
+const DebtList = lazy(() =>
+  import(
+    /* webpackChunkName: "debt.list" */ "./views/debts/debtList"
+  )
+);
+const DebtCreate = lazy(() =>
+  import(
+    /* webpackChunkName: "debt.create" */ "./views/debts/debtCreate"
+  )
+);
+
+const renderLoader = () => <Loading />;
