@@ -50,9 +50,26 @@ const getDatabase = () => {
       }
     }
   };
+  const tblCurrency = {
+    name: "Currency",
+    columns: {
+      id: {
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
+      rate: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      }
+    }
+  };
   const dataBase = {
     name: dbname,
-    tables: [tblAsset, tblDebt]
+    tables: [tblAsset, tblDebt, tblCurrency]
   };
   return dataBase;
 };

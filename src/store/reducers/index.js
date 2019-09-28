@@ -36,9 +36,29 @@ const debts = (
   }
 };
 
+const currencies = (
+  state = {
+    data: [],
+    loading: false
+  },
+  action
+) => {
+  switch (action.type) {
+    case "GET_CURRENCIES":
+    case "CREATE_CURRENCY":
+    case "PARSE_CURRENCIES":
+      return { ...state, loading: true };
+    case "CURRENCIES_RECIEVED":
+      return { ...state, data: action.currencies, loading: false };
+    default:
+      return state;
+  }
+};
+
 const coinPurseApp = combineReducers({
   assets,
-  debts
+  debts,
+  currencies
 });
 
 export default coinPurseApp;

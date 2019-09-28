@@ -3,12 +3,28 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import i18n from "./i18n";
 import Loading from "./components/loading/loading";
-
+import { CurrencyService } from "./sources/db/currencyService";
+import store from "./store";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.initialize();
+  }
+
+  async initialize() {
+    await this.checkAndSeed();
+  }
+  async checkAndSeed() {
+    const _service = new CurrencyService();
+    const currencies = await _service.getCurrencies();
+    if (currencies.length == 0) {
+      store.dispatch({ type: "PARSE_CURRENCIES" });
+    }
+  }
+
   render() {
     return (
       <Suspense fallback={renderLoader()}>
@@ -30,37 +46,25 @@ export default class App extends Component {
 }
 
 const Dashboard = lazy(() =>
-  import(
-    /* webpackChunkName: "dashboard" */ "./views/dashboard"
-  )
+  import(/* webpackChunkName: "dashboard" */ "./views/dashboard")
 );
 
 const Login = lazy(() =>
-  import(
-    /* webpackChunkName: "login" */ "./views/auth/login"
-  )
+  import(/* webpackChunkName: "login" */ "./views/auth/login")
 );
 
 const AssetList = lazy(() =>
-  import(
-    /* webpackChunkName: "asset.list" */ "./views/assets/assetList"
-  )
+  import(/* webpackChunkName: "asset.list" */ "./views/assets/assetList")
 );
 const AssetCreate = lazy(() =>
-  import(
-    /* webpackChunkName: "asset.create" */ "./views/assets/assetCreate"
-  )
+  import(/* webpackChunkName: "asset.create" */ "./views/assets/assetCreate")
 );
 
 const DebtList = lazy(() =>
-  import(
-    /* webpackChunkName: "debt.list" */ "./views/debts/debtList"
-  )
+  import(/* webpackChunkName: "debt.list" */ "./views/debts/debtList")
 );
 const DebtCreate = lazy(() =>
-  import(
-    /* webpackChunkName: "debt.create" */ "./views/debts/debtCreate"
-  )
+  import(/* webpackChunkName: "debt.create" */ "./views/debts/debtCreate")
 );
 
 const renderLoader = () => <Loading />;

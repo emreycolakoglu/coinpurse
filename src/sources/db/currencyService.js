@@ -1,4 +1,5 @@
 import { BaseService } from "./baseService";
+import axios from "axios";
 
 export class CurrencyService extends BaseService {
   constructor() {
@@ -19,6 +20,14 @@ export class CurrencyService extends BaseService {
       return: true // since studentid is autoincrement field and we need id,
       // so we are making return true which will return the whole data inserted.
     });
+  }
+
+  massAddCurrency(currencies){
+    for (let i = 0; i < currencies.length; i++) {
+      const c = currencies[i];
+      this.addCurrency(c);
+    }
+    return true;
   }
 
   getCurrencyById(id) {
@@ -47,5 +56,13 @@ export class CurrencyService extends BaseService {
         id: id
       }
     });
+  }
+
+  downloadCurrencyData() {
+    return axios
+      .get("https://api.exchangerate-api.com/v4/latest/USD")
+      .then((response) => {
+        return response.data.rates;
+      });
   }
 }
