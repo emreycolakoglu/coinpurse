@@ -1,5 +1,14 @@
 import { combineReducers } from "redux";
 
+const profile = (state = {}, action) => {
+  switch (action.type) {
+    case "GET_PROFILE":
+      return { ...state };
+    default:
+      return state;
+  }
+};
+
 const assets = (
   state = {
     data: [],
@@ -56,6 +65,7 @@ const currencies = (
 };
 
 const coinPurseApp = combineReducers({
+  profile,
   assets,
   debts,
   currencies
