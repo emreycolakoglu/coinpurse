@@ -6,13 +6,12 @@ const webpack = require("webpack");
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 const { GenerateSW } = require("workbox-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
-
-
+const CopyPlugin = require("copy-webpack-plugin");
 
 const htmlProdPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
   filename: "./index.html",
-  favicon: './src/assets/images/icon_64.png',
+  favicon: "./src/assets/images/icon_64.png",
   minify: {
     removeComments: true,
     collapseWhitespace: true,
@@ -78,15 +77,17 @@ const swPlugin = new GenerateSW({
   skipWaiting: true
 });
 
-
 const robotsTxtPlugin = new RobotstxtPlugin({
   filePath: "/robots.txt"
 });
+
+const copyPlugin = new CopyPlugin([{ from: "./src/_redirects", to: "./" }]);
 
 exports.prodPlugins = [
   htmlProdPlugin,
   manifestPlugin,
   swPlugin,
+  copyPlugin,
   robotsTxtPlugin,
   envProdPlugin,
   cssPlugin,
