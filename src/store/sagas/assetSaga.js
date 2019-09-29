@@ -7,13 +7,20 @@ export function* getAssets() {
   yield put({ type: "ASSETS_RECIEVED", assets });
 }
 
-export function* createAsset(asset) {
+export function* createAsset(action) {
   const _service = new AssetService();
-  const newAsset = yield _service.addAsset(asset);
+  const newAsset = yield _service.addAsset(action.asset);
+  yield put({ type: "GET_ASSETS" });
+}
+
+export function* deleteAsset(action){
+  const _service = new AssetService();
+  const sth = yield _service.removeAsset(action.id);
   yield put({ type: "GET_ASSETS" });
 }
 
 export function* assetWatcher() {
   yield takeLatest("GET_ASSETS", getAssets);
   yield takeLatest("CREATE_ASSET", createAsset);
+  yield takeLatest("DELETE_ASSET", deleteAsset);
 }

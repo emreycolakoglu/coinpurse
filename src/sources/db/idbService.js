@@ -30,6 +30,10 @@ const getDatabase = () => {
       balance: {
         notNull: true,
         dataType: DATA_TYPE.Number
+      },
+      currencyId: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
       }
     }
   };
@@ -45,6 +49,10 @@ const getDatabase = () => {
         dataType: DATA_TYPE.String
       },
       balance: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      },
+      currencyId: {
         notNull: true,
         dataType: DATA_TYPE.Number
       }

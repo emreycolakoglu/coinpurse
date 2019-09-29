@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Navbar from "../../components/navbar/navbar";
 import View from "../../components/view/view";
 import Content from "../../components/view/content";
@@ -12,9 +13,29 @@ import store from "../../store";
 const AssetCreate = (props) => {
   const [name, setName] = useState("");
   const [balance, setBalance] = useState("");
+  const [currencyId, setCurrency] = useState("");
+  let history = useHistory();
+
+  useEffect(() => {
+    store.dispatch({ type: "GET_ASSETS" });
+    store.dispatch({ type: "GET_CURRENCIES" });
+  }, []);
+
+  useEffect(() => {
+    store.subscribe(() => {
+      const oldAssetCount = props.assets.data.length;
+      const newState = store.getState();
+      if (oldAssetCount != 0 && oldAssetCount < newState.assets.data.length) {
+        history.push("/assets/list");
+      }
+    });
+  }, []);
 
   async function createAsset() {
-    store.dispatch({ type: "CREATE_ASSET", asset: { name, balance } });
+    store.dispatch({
+      type: "CREATE_ASSET",
+      asset: { name, balance, currencyId }
+    });
   }
 
   return (
@@ -27,7 +48,6 @@ const AssetCreate = (props) => {
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
-                console.log(name, balance);
                 createAsset();
               }}
             >
@@ -63,6 +83,31 @@ const AssetCreate = (props) => {
                 </Form.Text>
               </Form.Group>
 
+              <Form.Group controlId="currency">
+                <Form.Label>Currency</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={currencyId}
+                  onChange={(e) => {
+                    setCurrency(parseInt(e.target.value));
+                  }}
+                >
+                  <option value="" disabled>
+                    Select one
+                  </option>
+                  {props.currencies.data.map((c, i) => {
+                    return (
+                      <option value={c.id} key={i}>
+                        {c.name}
+                      </option>
+                    );
+                  })}
+                </Form.Control>
+                <Form.Text className="text-muted">
+                  Enter currency type.
+                </Form.Text>
+              </Form.Group>
+
               <Button variant="primary" type="submit">
                 Submit
               </Button>
@@ -75,8 +120,16 @@ const AssetCreate = (props) => {
   );
 };
 
+AssetCreate.defaultProps = {
+  currencies: {
+    data: [],
+    loading: false
+  }
+};
+
 const mapStateToProps = (state) => ({
-  assets: state.assets
+  assets: state.assets,
+  currencies: state.currencies
 });
 
 export default connect(

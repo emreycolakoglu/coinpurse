@@ -7,9 +7,9 @@ export function* getCurrencies() {
   yield put({ type: "CURRENCIES_RECIEVED", currencies });
 }
 
-export function* createCurrency(currency) {
+export function* createCurrency(action) {
   const _service = new CurrencyService();
-  const newCurrency = yield _service.addCurrency(currency);
+  const newCurrency = yield _service.addCurrency(action.currency);
   yield put({ type: "GET_CURRENCIES" });
 }
 
