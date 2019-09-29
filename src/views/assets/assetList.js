@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import Navbar from "../../components/navbar/navbar";
 import View from "../../components/view/view";
@@ -9,6 +9,7 @@ import store from "../../store";
 import Button from "react-bootstrap/Button";
 
 const AssetList = (props) => {
+  const history = useHistory();
   useEffect(() => {
     store.dispatch({ type: "GET_ASSETS" });
     store.dispatch({ type: "GET_CURRENCIES" });
@@ -23,19 +24,18 @@ const AssetList = (props) => {
       <Navbar />
       <Content>
         <div>
-          <Link to="/assets/create" className="btn btn-primary">
-            Create
-          </Link>
-        </div>
-        <div>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>#</th>
+                <th>
+                  <Link to="/assets/create" className="btn btn-primary btn-sm">
+                    Create
+                  </Link>
+                </th>
                 <th>Name</th>
                 <th>Balance</th>
                 <th>Currency</th>
-                <th>Tools</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -54,6 +54,28 @@ const AssetList = (props) => {
                           }).name}
                       </td>
                       <td>
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            history.push(`/assets/detail/${a.id}`);
+                          }}
+                        >
+                          <i className="fa fa-eye" aria-hidden="true"></i>
+                        </Button>
+                        &nbsp;
+                        <Button
+                          variant="info"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            history.push(`/assets/edit/${a.id}`);
+                          }}
+                        >
+                          <i className="fa fa-pencil" aria-hidden="true"></i>
+                        </Button>
+                        &nbsp;
                         <Button
                           variant="danger"
                           size="sm"

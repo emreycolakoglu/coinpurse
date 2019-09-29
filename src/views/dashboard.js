@@ -25,7 +25,7 @@ const Dashboard = (props) => {
             />
           </div>
           <div className="col-8">
-            <TableCard header="Currencies" data={props.currencies.data} />
+            <TableCard header="Currencies" data={props.currencies.data} loading={props.currencies.loading} />
           </div>
         </div>
       </Content>

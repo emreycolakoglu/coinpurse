@@ -15,6 +15,8 @@ const workerPath = getWorkerPath();
 export const idbCon = new JsStore.Instance(new Worker(workerPath));
 export const dbname = "CoinPurse";
 
+const version = parseInt((process.env.VERSION || "0.0.1").replace(/\./g, ""));
+
 const getDatabase = () => {
   const tblAsset = {
     name: "Asset",
@@ -31,11 +33,16 @@ const getDatabase = () => {
         notNull: true,
         dataType: DATA_TYPE.Number
       },
+      icon: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
       currencyId: {
         notNull: true,
         dataType: DATA_TYPE.Number
       }
-    }
+    },
+    version
   };
   const tblDebt = {
     name: "Debt",
@@ -52,11 +59,16 @@ const getDatabase = () => {
         notNull: true,
         dataType: DATA_TYPE.Number
       },
+      icon: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
       currencyId: {
         notNull: true,
         dataType: DATA_TYPE.Number
       }
-    }
+    },
+    version
   };
   const tblCurrency = {
     name: "Currency",
@@ -73,7 +85,8 @@ const getDatabase = () => {
         notNull: true,
         dataType: DATA_TYPE.Number
       }
-    }
+    },
+    version
   };
   const dataBase = {
     name: dbname,

@@ -8,27 +8,33 @@ export default function TableCard(props) {
     <Card bg={props.bg} text={props.fg} style={props.style}>
       {props.header ? <Card.Header>{props.header}</Card.Header> : null}
       <Card.Body>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              {keyArray.map((val, j) => (
-                <td key={j}>{val}</td>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {props.data.map((row, i) => {
-              const valArray = Object.values(row);
-              return (
-                <tr key={i}>
-                  {valArray.map((val, j) => (
-                    <td key={j}>{val}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        {props.loading ? (
+          <div>
+            <i className="fa fa-cog fa-spin"></i>
+          </div>
+        ) : (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                {keyArray.map((val, j) => (
+                  <td key={j}>{val}</td>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {props.data.map((row, i) => {
+                const valArray = Object.values(row);
+                return (
+                  <tr key={i}>
+                    {valArray.map((val, j) => (
+                      <td key={j}>{val}</td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        )}
       </Card.Body>
     </Card>
   );
@@ -38,5 +44,6 @@ TableCard.defaultProps = {
   bg: "white",
   fg: "black",
   style: {},
+  loading: false,
   data: []
 };

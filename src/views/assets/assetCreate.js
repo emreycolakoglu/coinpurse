@@ -9,11 +9,14 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import store from "../../store";
+import { assetTypes as ics } from "../../sources/static/iconService";
 
 const AssetCreate = (props) => {
   const [name, setName] = useState("");
   const [balance, setBalance] = useState("");
   const [currencyId, setCurrency] = useState("");
+  const [icon, setIcon] = useState("");
+  const [icons, setIcons] = useState(ics);
   let history = useHistory();
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const AssetCreate = (props) => {
   async function createAsset() {
     store.dispatch({
       type: "CREATE_ASSET",
-      asset: { name, balance, currencyId }
+      asset: { name, balance, currencyId, icon }
     });
   }
 
@@ -106,6 +109,29 @@ const AssetCreate = (props) => {
                 <Form.Text className="text-muted">
                   Enter currency type.
                 </Form.Text>
+              </Form.Group>
+
+              <Form.Group controlId="icon">
+                <Form.Label>Icon</Form.Label>
+                <Form.Control
+                  as="select"
+                  value={icon}
+                  onChange={(e) => {
+                    setIcon(e.target.value);
+                  }}
+                >
+                  <option value="" disabled>
+                    Select one
+                  </option>
+                  {icons.map((c, i) => {
+                    return (
+                      <option value={c.value} key={i}>
+                        {c.key}
+                      </option>
+                    );
+                  })}
+                </Form.Control>
+                <Form.Text className="text-muted">Enter icon.</Form.Text>
               </Form.Group>
 
               <Button variant="primary" type="submit">
