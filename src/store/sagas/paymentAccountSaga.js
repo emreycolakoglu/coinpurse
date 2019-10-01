@@ -35,7 +35,7 @@ export function* editPaymentAccount(action) {
   yield put({ type: "GET_PAYMENT_ACCOUNTS" });
 }
 
-export function* modifyPaymentAccount(action) {
+export function* modifyPaymentAccountAmount(action) {
   const _service = new PaymentAccountService();
   let pa = yield _service.getPaymentAccountById(action.paymentAccountId);
   if (pa && pa.length > 0) {
@@ -52,6 +52,10 @@ export function* deletePaymentAccount(action) {
   const _service = new PaymentAccountService();
   const sth = yield _service.removePaymentAccount(action.id);
   yield put({ type: "GET_PAYMENT_ACCOUNTS" });
+  yield put({
+    type: "DELETE_INCOME_OF_PAYMENT_ACTION",
+    paymentAccountId: action.id
+  });
 }
 
 export function* paymentAccountWatcher() {
@@ -59,5 +63,5 @@ export function* paymentAccountWatcher() {
   yield takeLatest("CREATE_PAYMENT_ACCOUNT", createPaymentAccount);
   yield takeLatest("EDIT_PAYMENT_ACCOUNT", editPaymentAccount);
   yield takeLatest("DELETE_PAYMENT_ACCOUNT", deletePaymentAccount);
-  yield takeLatest("MODIFY_PAYMENT_ACCOUNT", modifyPaymentAccount);
+  yield takeLatest("MODIFY_PAYMENT_ACCOUNT_AMOUNT", modifyPaymentAccountAmount);
 }

@@ -12,30 +12,27 @@ import { IncomeService } from "../../sources/db/incomeService";
 import { incomeCategory } from "../../sources/static/categoryService";
 
 const PaymentAccountDetail = (props) => {
-  const [paymentAccount, setPaymentAction] = useState({});
-  const [incomes, setIncomes] = useState([]);
   const history = useHistory();
+
   useEffect(() => {
     store.dispatch({ type: "GET_PAYMENT_ACCOUNTS" });
     store.dispatch({ type: "GET_CURRENCIES" });
-    getData();
+    store.dispatch({
+      type: "FIND_INCOMES",
+      query: {
+        paymentAccountId: parseInt(props.match.params.id)
+      }
+    });
   }, []);
 
-  async function getData() {
-    const _incomeService = new IncomeService();
-    const _paymentAccountService = new PaymentAccountService();
-    const _incomes = await _incomeService.findIncomes({
-      paymentAccountId: parseInt(props.match.params.id)
+  async function deleteIncome(id) {
+    await store.dispatch({ type: "DELETE_INCOME", id });
+    store.dispatch({
+      type: "FIND_INCOMES",
+      query: {
+        paymentAccountId: parseInt(props.match.params.id)
+      }
     });
-    const _pa = await _paymentAccountService.getPaymentAccountById(
-      parseInt(props.match.params.id)
-    );
-    setPaymentAction(_pa[0]);
-    setIncomes(_incomes);
-  }
-
-  function deleteIncome(id) {
-    //store.dispatch({ type: "DELETE_INCOME", id });
   }
 
   return (
@@ -54,8 +51,8 @@ const PaymentAccountDetail = (props) => {
             </tr>
           </thead>
           <tbody>
-            {incomes &&
-              incomes.map((a, i) => {
+            {props.incomes &&
+              props.incomes.data.map((a, i) => {
                 return (
                   <tr key={i}>
                     <td>{a.id}</td>
@@ -102,7 +99,8 @@ const PaymentAccountDetail = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  currencies: state.currencies
+  currencies: state.currencies,
+  incomes: state.incomes
 });
 
 export default connect(
