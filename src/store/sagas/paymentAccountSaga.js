@@ -3,7 +3,7 @@ import { PaymentAccountService } from "../../sources/db/paymentAccountService";
 
 export function* getPaymentAccounts() {
   const _service = new PaymentAccountService();
-  const assets = yield _service.getPaymentAccounts();
+  const paymentAccounts = yield _service.getPaymentAccounts();
   yield put({ type: "PAYMENT_ACCOUNTS_RECIEVED", paymentAccounts });
 }
 

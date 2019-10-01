@@ -8,6 +8,8 @@ const BalanceWidget = (props) => {
   useEffect(() => {
     store.dispatch({ type: "GET_ASSETS" });
     store.dispatch({ type: "GET_DEBTS" });
+    store.dispatch({ type: "GET_CARDS" });
+    store.dispatch({ type: "GET_PAYMENT_ACCOUNTS" });
   }, []);
 
   useEffect(() => {
@@ -15,8 +17,14 @@ const BalanceWidget = (props) => {
     props.assets.data.map((a) => {
       rx += a.balance;
     });
+    props.paymentAccounts.data.map((a) => {
+      rx += a.balance;
+    });
 
     props.debts.data.map((d) => {
+      rx -= d.balance;
+    });
+    props.cards.data.map((d) => {
       rx -= d.balance;
     });
     setResult(rx);
@@ -37,11 +45,19 @@ BalanceWidget.defaultProps = {
   },
   debts: {
     data: []
+  },
+  paymentAccounts: {
+    data: []
+  },
+  cards: {
+    data: []
   }
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  paymentAccounts: state.paymantAccounts,
+  cards: state.cards,
   assets: state.assets,
   debts: state.debts
 });
