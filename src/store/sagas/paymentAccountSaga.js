@@ -24,6 +24,19 @@ export function* editPaymentAccount(action) {
   yield put({ type: "GET_PAYMENT_ACCOUNTS" });
 }
 
+export function* modifyPaymentAccount(action) {
+  const _service = new PaymentAccountService();
+  let pa = yield _service.getPaymentAccountById(action.paymentAccountId);
+  if (pa && pa.length > 0) {
+    pa[0].balance += action.amount;
+    const modifiedPaymentAccount = yield _service.updatePaymentAccountById(
+      action.paymentAccountId,
+      pa[0]
+    );
+  }
+  yield put({ type: "GET_PAYMENT_ACCOUNTS" });
+}
+
 export function* deletePaymentAccount(action) {
   const _service = new PaymentAccountService();
   const sth = yield _service.removePaymentAccount(action.id);
@@ -35,4 +48,5 @@ export function* paymentAccountWatcher() {
   yield takeLatest("CREATE_PAYMENT_ACCOUNT", createPaymentAccount);
   yield takeLatest("EDIT_PAYMENT_ACCOUNT", editPaymentAccount);
   yield takeLatest("DELETE_PAYMENT_ACCOUNT", deletePaymentAccount);
+  yield takeLatest("MODIFY_PAYMENT_ACCOUNT", modifyPaymentAccount);
 }

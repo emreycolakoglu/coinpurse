@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import Navbar from "../../components/navbar/navbar";
 import View from "../../components/view/view";
@@ -10,6 +10,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import store from "../../store";
 import Button from "react-bootstrap/Button";
+import dayjs from "dayjs";
 import { incomeCategory } from "../../sources/static/categoryService";
 
 const IncomeCreate = (props) => {
@@ -17,8 +18,10 @@ const IncomeCreate = (props) => {
     name: "",
     amount: 0,
     paymentAccountId: "",
-    incomeCategoryId: ""
+    incomeCategoryId: "",
+    date: new Date()
   });
+  const history = useHistory();
 
   useEffect(() => {
     store.dispatch({ type: "GET_PAYMENT_ACCOUNTS" });
@@ -76,6 +79,7 @@ const IncomeCreate = (props) => {
                           paymentAccountId: parseInt(e.target.value)
                         });
                       }}
+                      required
                     >
                       <option value="" disabled>
                         Select one
@@ -102,7 +106,7 @@ const IncomeCreate = (props) => {
                       onChange={(e) => {
                         setRequest({
                           ...request,
-                          name: parseFloat(e.target.value)
+                          amount: parseFloat(e.target.value)
                         });
                       }}
                       required
@@ -116,10 +120,13 @@ const IncomeCreate = (props) => {
                       type="date"
                       className="form-control"
                       id="date"
-                      value={request.date}
-                      onChange={(value, fv) => {
-                        setRequest({ ...request, date: new Date(value) });
+                      onChange={(e) => {
+                        setRequest({
+                          ...request,
+                          date: dayjs(e.target.value).toDate()
+                        });
                       }}
+                      required
                     />
                     <Form.Text className="text-muted">Enter date.</Form.Text>
                   </Form.Group>
@@ -135,6 +142,7 @@ const IncomeCreate = (props) => {
                           incomeCategoryId: parseInt(e.target.value)
                         });
                       }}
+                      required
                     >
                       <option value="" disabled>
                         Select one
@@ -148,6 +156,22 @@ const IncomeCreate = (props) => {
                       })}
                     </Form.Control>
                     <Form.Text className="text-muted">Enter icon.</Form.Text>
+                  </Form.Group>
+
+                  <Form.Group controlId="description">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter description"
+                      value={request.description}
+                      autoFocus
+                      onChange={(e) => {
+                        setRequest({ ...request, description: e.target.value });
+                      }}
+                    />
+                    <Form.Text className="text-muted">
+                      Enter the description of income.
+                    </Form.Text>
                   </Form.Group>
 
                   <Button variant="primary" type="submit">
