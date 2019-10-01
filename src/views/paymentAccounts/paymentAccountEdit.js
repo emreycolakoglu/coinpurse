@@ -11,23 +11,41 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import store from "../../store";
 import { paymentAccountTypes as ics } from "../../sources/static/iconService";
+import { PaymentAccountService } from "../../sources/db/paymentAccountService";
 
-const PaymentAccountCreate = (props) => {
+const PaymentAccountEdit = (props) => {
   const [name, setName] = useState("");
   const [balance, setBalance] = useState("");
   const [currencyId, setCurrency] = useState("");
   const [icon, setIcon] = useState("");
+  const [id, setId] = useState(0);
   const [icons, setIcons] = useState(ics);
   let history = useHistory();
+
+  async function getPa() {
+    const _service = new PaymentAccountService();
+    const pa = await _service.getPaymentAccountById(
+      parseInt(props.match.params.id)
+    );
+    if (pa && pa.length > 0) {
+      setName(pa[0].name);
+      setBalance(pa[0].balance);
+      setCurrency(pa[0].currencyId);
+      setIcon(pa[0].icon);
+      setId(pa[0].id);
+    }
+  }
 
   useEffect(() => {
     store.dispatch({ type: "GET_PAYMENT_ACCOUNTS" });
     store.dispatch({ type: "GET_CURRENCIES" });
+    getPa();
   }, []);
 
-  async function createPaymentAccount() {
+  async function editPaymentAccount() {
     store.dispatch({
-      type: "CREATE_PAYMENT_ACCOUNT",
+      type: "EDIT_PAYMENT_ACCOUNT",
+      id: id,
       paymentAccount: { name, balance, currencyId, icon }
     });
     history.push("/paymentAccounts/list");
@@ -40,12 +58,12 @@ const PaymentAccountCreate = (props) => {
         <Row>
           <Col xs={12} md={4}>
             <Card>
-              <Card.Header>Create a new Payment Account</Card.Header>
+              <Card.Header>Edit Payment Account</Card.Header>
               <Card.Body>
                 <Form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    createPaymentAccount();
+                    editPaymentAccount();
                   }}
                 >
                   <Form.Group controlId="name">
@@ -143,7 +161,7 @@ const PaymentAccountCreate = (props) => {
   );
 };
 
-PaymentAccountCreate.defaultProps = {
+PaymentAccountEdit.defaultProps = {
   currencies: {
     data: [],
     loading: false
@@ -158,4 +176,4 @@ const mapStateToProps = (state) => ({
 export default connect(
   mapStateToProps,
   {}
-)(PaymentAccountCreate);
+)(PaymentAccountEdit);

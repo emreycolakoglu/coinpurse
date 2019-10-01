@@ -35,9 +35,15 @@ export default class App extends Component {
 
           <Route exact path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
-          
+
           <Route path="/paymentAccounts/list" component={PaymentAccountList} />
-          <Route path="/paymentAccounts/create" component={PaymentAccountCreate} />
+          <Route
+            path="/paymentAccounts/create"
+            component={PaymentAccountCreate}
+          />
+          <Route path="/paymentAccounts/edit/:id" component={PaymentAccountEdit} />
+          <Route path="/cards/list" component={CardList} />
+          <Route path="/cards/create" component={CardCreate} />
           <Route path="/assets/list" component={AssetList} />
           <Route path="/assets/create" component={AssetCreate} />
           <Route path="/debts/list" component={DebtList} />
@@ -57,10 +63,26 @@ const Login = lazy(() =>
 );
 
 const PaymentAccountList = lazy(() =>
-  import(/* webpackChunkName: "paymentAccount.list" */ "./views/paymentAccounts/paymentAccountList")
+  import(
+    /* webpackChunkName: "paymentAccount.list" */ "./views/paymentAccounts/paymentAccountList"
+  )
 );
 const PaymentAccountCreate = lazy(() =>
-  import(/* webpackChunkName: "paymentAccount.create" */ "./views/paymentAccounts/paymentAccountCreate")
+  import(
+    /* webpackChunkName: "paymentAccount.create" */ "./views/paymentAccounts/paymentAccountCreate"
+  )
+);
+const PaymentAccountEdit = lazy(() =>
+  import(
+    /* webpackChunkName: "paymentAccount.edit" */ "./views/paymentAccounts/paymentAccountEdit"
+  )
+);
+
+const CardList = lazy(() =>
+  import(/* webpackChunkName: "card.list" */ "./views/cards/cardList")
+);
+const CardCreate = lazy(() =>
+  import(/* webpackChunkName: "card.create" */ "./views/cards/cardCreate")
 );
 
 const AssetList = lazy(() =>

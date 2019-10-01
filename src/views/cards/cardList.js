@@ -8,15 +8,15 @@ import Table from "react-bootstrap/Table";
 import store from "../../store";
 import Button from "react-bootstrap/Button";
 
-const PaymentAccountList = (props) => {
+const CardList = (props) => {
   const history = useHistory();
   useEffect(() => {
-    store.dispatch({ type: "GET_PAYMENT_ACCOUNTS" });
+    store.dispatch({ type: "GET_CARDS" });
     store.dispatch({ type: "GET_CURRENCIES" });
   }, []);
 
-  function deletePaymentAccount(id) {
-    store.dispatch({ type: "DELETE_PAYMENT_ACCOUNT", id });
+  function deleteCard(id) {
+    store.dispatch({ type: "DELETE_CARD", id });
   }
 
   return (
@@ -27,7 +27,7 @@ const PaymentAccountList = (props) => {
           <thead>
             <tr>
               <th>
-                <Link to="/paymentAccounts/create" className="btn btn-primary btn-sm">
+                <Link to="/cards/create" className="btn btn-primary btn-sm">
                   Create
                 </Link>
               </th>
@@ -38,9 +38,9 @@ const PaymentAccountList = (props) => {
             </tr>
           </thead>
           <tbody>
-            {props.paymentAccounts &&
-              props.paymentAccounts.data &&
-              props.paymentAccounts.data.map((a, i) => {
+            {props.cards &&
+              props.cards.data &&
+              props.cards.data.map((a, i) => {
                 return (
                   <tr key={i}>
                     <td>{a.id}</td>
@@ -58,7 +58,7 @@ const PaymentAccountList = (props) => {
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
-                          history.push(`/paymentAccounts/detail/${a.id}`);
+                          history.push(`/cards/detail/${a.id}`);
                         }}
                       >
                         <i className="fa fa-eye" aria-hidden="true"></i>
@@ -69,7 +69,7 @@ const PaymentAccountList = (props) => {
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
-                          history.push(`/paymentAccounts/edit/${a.id}`);
+                          history.push(`/cards/edit/${a.id}`);
                         }}
                       >
                         <i className="fa fa-pencil" aria-hidden="true"></i>
@@ -80,7 +80,7 @@ const PaymentAccountList = (props) => {
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
-                          deletePaymentAccount(a.id);
+                          deleteCard(a.id);
                         }}
                       >
                         <i className="fa fa-trash" aria-hidden="true"></i>
@@ -97,11 +97,11 @@ const PaymentAccountList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  paymentAccounts: state.paymentAccounts,
+  cards: state.cards,
   currencies: state.currencies
 });
 
 export default connect(
   mapStateToProps,
   {}
-)(PaymentAccountList);
+)(CardList);

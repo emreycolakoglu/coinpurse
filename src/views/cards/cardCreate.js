@@ -10,9 +10,9 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import store from "../../store";
-import { paymentAccountTypes as ics } from "../../sources/static/iconService";
+import { creditCardTypes as ics } from "../../sources/static/iconService";
 
-const PaymentAccountCreate = (props) => {
+const CardCreate = (props) => {
   const [name, setName] = useState("");
   const [balance, setBalance] = useState("");
   const [currencyId, setCurrency] = useState("");
@@ -21,16 +21,16 @@ const PaymentAccountCreate = (props) => {
   let history = useHistory();
 
   useEffect(() => {
-    store.dispatch({ type: "GET_PAYMENT_ACCOUNTS" });
+    store.dispatch({ type: "GET_CARDS" });
     store.dispatch({ type: "GET_CURRENCIES" });
   }, []);
 
-  async function createPaymentAccount() {
+  async function createCard() {
     store.dispatch({
-      type: "CREATE_PAYMENT_ACCOUNT",
-      paymentAccount: { name, balance, currencyId, icon }
+      type: "CREATE_CARD",
+      card: { name, balance, currencyId, icon }
     });
-    history.push("/paymentAccounts/list");
+    history.push("/cards/list");
   }
 
   return (
@@ -40,12 +40,12 @@ const PaymentAccountCreate = (props) => {
         <Row>
           <Col xs={12} md={4}>
             <Card>
-              <Card.Header>Create a new Payment Account</Card.Header>
+              <Card.Header>Create a new Card</Card.Header>
               <Card.Body>
                 <Form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    createPaymentAccount();
+                    createCard();
                   }}
                 >
                   <Form.Group controlId="name">
@@ -77,7 +77,7 @@ const PaymentAccountCreate = (props) => {
                       required
                     />
                     <Form.Text className="text-muted">
-                      Enter starting balance.
+                      Enter starting debt.
                     </Form.Text>
                   </Form.Group>
 
@@ -143,7 +143,7 @@ const PaymentAccountCreate = (props) => {
   );
 };
 
-PaymentAccountCreate.defaultProps = {
+CardCreate.defaultProps = {
   currencies: {
     data: [],
     loading: false
@@ -151,11 +151,11 @@ PaymentAccountCreate.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  paymentAccounts: state.paymentAccounts,
+  cards: state.cards,
   currencies: state.currencies
 });
 
 export default connect(
   mapStateToProps,
   {}
-)(PaymentAccountCreate);
+)(CardCreate);
