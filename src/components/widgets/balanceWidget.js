@@ -28,7 +28,12 @@ const BalanceWidget = (props) => {
       rx -= d.balance;
     });
     setResult(rx);
-  }, [props.assets.data, props.debts.data]);
+  }, [
+    props.assets.data,
+    props.debts.data,
+    props.paymentAccounts.data,
+    props.cards.data
+  ]);
 
   return (
     <SingleValueCard
@@ -56,7 +61,7 @@ BalanceWidget.defaultProps = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
-  paymentAccounts: state.paymantAccounts,
+  paymentAccounts: state.paymentAccounts,
   cards: state.cards,
   assets: state.assets,
   debts: state.debts

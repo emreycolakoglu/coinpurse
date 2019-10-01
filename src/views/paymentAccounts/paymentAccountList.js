@@ -38,9 +38,9 @@ const PaymentAccountList = (props) => {
             </tr>
           </thead>
           <tbody>
-            {props.assets &&
-              props.assets.data &&
-              props.assets.data.map((a, i) => {
+            {props.paymentAccounts &&
+              props.paymentAccounts.data &&
+              props.paymentAccounts.data.map((a, i) => {
                 return (
                   <tr key={i}>
                     <td>{a.id}</td>
@@ -80,7 +80,7 @@ const PaymentAccountList = (props) => {
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
-                          deleteAsset(a.id);
+                          deletePaymentAccount(a.id);
                         }}
                       >
                         <i className="fa fa-trash" aria-hidden="true"></i>
@@ -97,7 +97,7 @@ const PaymentAccountList = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  assets: state.assets,
+  paymentAccounts: state.paymentAccounts,
   currencies: state.currencies
 });
 
