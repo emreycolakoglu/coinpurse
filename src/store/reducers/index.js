@@ -100,12 +100,31 @@ const currencies = (
   }
 };
 
+const incomes = (
+  state = {
+    data: [],
+    loading: false
+  },
+  action
+) => {
+  switch (action.type) {
+    case "GET_INCOMES":
+    case "CREATE_INCOME":
+      return { ...state, loading: true };
+    case "INCOMES_RECIEVED":
+      return { ...state, data: action.incomes, loading: false };
+    default:
+      return state;
+  }
+};
+
 const coinPurseApp = combineReducers({
   profile,
   paymentAccounts,
   cards,
   assets,
   debts,
+  incomes,
   currencies
 });
 

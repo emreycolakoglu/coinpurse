@@ -140,9 +140,50 @@ const getDatabase = () => {
     },
     version
   };
+  const tblIncome = {
+    name: "Income",
+    columns: {
+      id: {
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
+      description: {
+        dataType: DATA_TYPE.String
+      },
+      amount: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      },
+      date: {
+        notNull: true,
+        default: new Date(),
+        dataType: DATA_TYPE.DateTime
+      },
+      incomeCategoryId: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      },
+      paymentAccountId: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      }
+    },
+    version
+  };
   const dataBase = {
     name: dbname,
-    tables: [tblPaymentAccount, tblCard, tblAsset, tblDebt, tblCurrency]
+    tables: [
+      tblPaymentAccount,
+      tblCard,
+      tblAsset,
+      tblDebt,
+      tblCurrency,
+      tblIncome
+    ]
   };
   return dataBase;
 };

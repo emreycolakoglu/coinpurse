@@ -4,6 +4,7 @@ import { debtWatcher } from "./debtSaga";
 import { currencyWatcher } from "./currencySaga";
 import { paymentAccountWatcher } from "./paymentAccountSaga";
 import { cardWatcher } from "./cardSaga";
+import { incomeWatcher } from "./incomeSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -11,6 +12,7 @@ export default function* rootSaga() {
     cardWatcher(),
     assetWatcher(),
     debtWatcher(),
-    currencyWatcher()
+    currencyWatcher(),
+    incomeWatcher()
   ]);
 }
