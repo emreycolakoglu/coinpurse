@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Navbar from "../components/navbar/navbar";
 import View from "../components/view/view";
-import SingleValueCard from "../components/cards/singleValueCard";
 import TableCard from "../components/cards/tableCard";
 import Content from "../components/view/content";
 import store from "../store";
@@ -10,6 +10,8 @@ import ActionCard from "../components/cards/actionCard";
 import BalanceWidget from "../components/widgets/balanceWidget";
 
 const Dashboard = (props) => {
+  let history = useHistory();
+
   useEffect(() => {
     store.dispatch({ type: "GET_CURRENCIES" });
   }, []);
@@ -21,10 +23,22 @@ const Dashboard = (props) => {
           <div className="col-2">
             <ActionCard
               bg="success"
+              header="Add New Income"
+              actionIcon="fa-plus"
+              onClickCallback={(e) => {
+                e.preventDefault();
+                history.push("/income/create");
+              }}
+            ></ActionCard>
+          </div>
+          <div className="col-2">
+            <ActionCard
+              bg="danger"
               header="Add New Expense"
               actionIcon="fa-plus"
               onClickCallback={(e) => {
-                alert("yiss");
+                e.preventDefault();
+                history.push("/expense/create");
               }}
             ></ActionCard>
           </div>

@@ -25,7 +25,7 @@ const DebtCreate = (props) => {
     store.dispatch({ type: "GET_CURRENCIES" });
   }, []);
 
-  async function createAsset() {
+  async function createDebt() {
     store.dispatch({
       type: "CREATE_DEBT",
       debt: { name, balance, currencyId, icon }
@@ -45,7 +45,7 @@ const DebtCreate = (props) => {
                 <Form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    createAsset();
+                    createDebt();
                   }}
                 >
                   <Form.Group controlId="name">

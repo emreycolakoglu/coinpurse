@@ -48,6 +48,9 @@ export default class App extends Component {
           <Route path="/assets/create" component={AssetCreate} />
           <Route path="/debts/list" component={DebtList} />
           <Route path="/debts/create" component={DebtCreate} />
+
+
+          <Route path="/income/create" component={IncomeCreate} />
         </BrowserRouter>
       </Suspense>
     );
@@ -97,6 +100,11 @@ const DebtList = lazy(() =>
 );
 const DebtCreate = lazy(() =>
   import(/* webpackChunkName: "debt.create" */ "./views/debts/debtCreate")
+);
+
+
+const IncomeCreate = lazy(() =>
+  import(/* webpackChunkName: "income.create" */ "./views/incomes/incomeCreate")
 );
 
 const renderLoader = () => <Loading />;
