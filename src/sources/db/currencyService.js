@@ -22,10 +22,21 @@ export class CurrencyService extends BaseService {
     });
   }
 
-  massAddCurrency(currencies){
+  update(q, val) {
+    return this.connection.update({
+      in: this.tableName,
+      where: q,
+      set: val
+    });
+  }
+
+  async massAddCurrency(currencies) {
     for (let i = 0; i < currencies.length; i++) {
       const c = currencies[i];
-      this.addCurrency(c);
+      const existing = await this.update({ name: c.name }, { rate: c.rate });
+      if (!existing) {
+        this.addCurrency(c);
+      }
     }
     return true;
   }
@@ -63,6 +74,14 @@ export class CurrencyService extends BaseService {
       .get("https://api.exchangerate-api.com/v4/latest/USD")
       .then((response) => {
         return response.data.rates;
+      });
+  }
+
+  downloadBitcoinData() {
+    return axios
+      .get("https://blockchain.info/tobtc?currency=USD&value=1")
+      .then((response) => {
+        return parseFloat(response.data);
       });
   }
 }

@@ -72,7 +72,7 @@ const AssetCreate = (props) => {
                       placeholder="0"
                       value={balance}
                       onChange={(e) => {
-                        setBalance(parseInt(e.target.value));
+                        setBalance(parseFloat(e.target.value));
                       }}
                       required
                     />

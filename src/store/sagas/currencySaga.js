@@ -16,6 +16,7 @@ export function* createCurrency(action) {
 export function* parseCurrencies() {
   const _service = new CurrencyService();
   const currencyData = yield _service.downloadCurrencyData();
+  const bitcoinData = yield _service.downloadBitcoinData();
   const rowData = Object.keys(currencyData).map(function(key) {
     return [key, currencyData[key]];
   });
@@ -24,6 +25,10 @@ export function* parseCurrencies() {
       name: c[0],
       rate: c[1]
     };
+  });
+  addableData.push({
+    name: "BTC",
+    rate: bitcoinData
   });
   const result = yield _service.massAddCurrency(addableData);
   yield put({ type: "GET_CURRENCIES" });
