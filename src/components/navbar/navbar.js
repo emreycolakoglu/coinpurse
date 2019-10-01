@@ -15,17 +15,17 @@ export default function CoinPurseNavbar(props) {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
+          <LinkContainer to="/paymentAccounts/list">
+            <Nav.Link>Payment Accounts</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/cards/list">
+            <Nav.Link>Cards</Nav.Link>
+          </LinkContainer>
           <LinkContainer to="/assets/list">
             <Nav.Link>Assets</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/debts/list">
             <Nav.Link>Debts</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/cards/list">
-            <Nav.Link>Cards</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to="/credits/list">
-            <Nav.Link>Credits</Nav.Link>
           </LinkContainer>
         </Nav>
         <Nav className="ml-auto">

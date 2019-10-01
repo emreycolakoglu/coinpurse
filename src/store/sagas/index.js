@@ -2,7 +2,15 @@ import { put, takeEvery, takeLatest, all } from "redux-saga/effects";
 import { assetWatcher } from "./assetSaga";
 import { debtWatcher } from "./debtSaga";
 import { currencyWatcher } from "./currencySaga";
+import { paymentAccountWatcher } from "./paymentAccountSaga";
+import { cardWatcher } from "./cardSaga";
 
 export default function* rootSaga() {
-  yield all([assetWatcher(), debtWatcher(), currencyWatcher()]);
+  yield all([
+    paymentAccountWatcher(),
+    cardWatcher(),
+    assetWatcher(),
+    debtWatcher(),
+    currencyWatcher()
+  ]);
 }

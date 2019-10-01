@@ -18,6 +18,58 @@ export const dbname = "CoinPurse";
 const version = parseInt((process.env.VERSION || "0.0.1").replace(/\./g, ""));
 
 const getDatabase = () => {
+  const tblPaymentAccount = {
+    name: "PaymentAccount",
+    columns: {
+      id: {
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
+      balance: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      },
+      icon: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
+      currencyId: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      }
+    },
+    version
+  };
+  const tblCard = {
+    name: "Card",
+    columns: {
+      id: {
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
+      balance: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      },
+      icon: {
+        notNull: true,
+        dataType: DATA_TYPE.String
+      },
+      currencyId: {
+        notNull: true,
+        dataType: DATA_TYPE.Number
+      }
+    },
+    version
+  };
   const tblAsset = {
     name: "Asset",
     columns: {
@@ -90,7 +142,7 @@ const getDatabase = () => {
   };
   const dataBase = {
     name: dbname,
-    tables: [tblAsset, tblDebt, tblCurrency]
+    tables: [tblPaymentAccount, tblCard, tblAsset, tblDebt, tblCurrency]
   };
   return dataBase;
 };

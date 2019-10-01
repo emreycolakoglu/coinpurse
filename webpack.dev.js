@@ -125,10 +125,10 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
-    port: 3000,
+    port: 3001,
     host: "0.0.0.0",
     open: true,
-    openPage: "http://localhost:3000/",
+    openPage: "http://localhost:3001/",
     overlay: true,
     disableHostCheck: true,
     historyApiFallback: true
