@@ -9,9 +9,20 @@ export function* getPaymentAccounts() {
 
 export function* createPaymentAccount(action) {
   const _service = new PaymentAccountService();
-  const newPaymentAccount = yield _service.addPaymentAccount(
-    action.paymentAccount
-  );
+  const newPaymentAccount = yield _service.addPaymentAccount({
+    ...action.paymentAccount,
+    balance: 0
+  });
+  yield put({
+    type: "CREATE_INCOME",
+    income: {
+      name: "Starting balance",
+      amount: action.paymentAccount.balance,
+      paymentAccountId: newPaymentAccount[0].id,
+      incomeCategoryId: 6,
+      date: new Date()
+    }
+  });
   yield put({ type: "GET_PAYMENT_ACCOUNTS" });
 }
 

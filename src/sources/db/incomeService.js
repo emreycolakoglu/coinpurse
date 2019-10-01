@@ -48,4 +48,11 @@ export class IncomeService extends BaseService {
       }
     });
   }
+
+  findIncomes(query) {
+    return this.connection.select({
+      from: this.tableName,
+      where: query
+    });
+  }
 }

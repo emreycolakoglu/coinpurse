@@ -43,7 +43,7 @@ const IncomeCreate = (props) => {
         <Row>
           <Col xs={12} md={4}>
             <Card>
-              <Card.Header>Create a new Debt</Card.Header>
+              <Card.Header>Create a new income</Card.Header>
               <Card.Body>
                 <Form
                   onSubmit={(e) => {
@@ -181,7 +181,6 @@ const IncomeCreate = (props) => {
               </Card.Body>
             </Card>
           </Col>
-          <Col xs={12} md={4}></Col>
         </Row>
       </Content>
     </View>
